@@ -1,0 +1,16 @@
+{
+  "overrides": {
+    "treesitter": {
+      "ensure_installed": [
+        "json",
+        "markdown",
+        "markdown_inline",
+        "python"
+      ]
+    },
+    "mason": {
+      "ensure_installed": [
+      ]
+    }
+  }
+}

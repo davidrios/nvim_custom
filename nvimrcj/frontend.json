@@ -1,0 +1,23 @@
+{
+  "overrides": {
+    "treesitter": {
+      "ensure_installed": [
+        "html",
+        "css",
+        "scss",
+        "javascript",
+        "typescript",
+        "json",
+        "markdown",
+        "markdown_inline"
+      ]
+    },
+    "mason": {
+      "ensure_installed": [
+        "css-lsp",
+        "html-lsp",
+        "typescript-language-server"
+      ]
+    }
+  }
+}
