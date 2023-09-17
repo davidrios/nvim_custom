@@ -22,6 +22,6 @@ fi
 
 mkdir -p "$OPT_PATH/node"
 $download 'https://nodejs.org/dist/v18.17.1/node-v18.17.1-linux-x64.tar.gz' | tar xz --strip-components=1 -C "$OPT_PATH/node"
-ln "$OPT_PATH/node/bin"/* "$BIN_PATH/"
+ln -s "$OPT_PATH/node/bin"/* "$BIN_PATH/"
 
 echo Done!
