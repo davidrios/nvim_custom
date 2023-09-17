@@ -85,9 +85,15 @@ if test -f "$HOME/.config/nvim/lua/custom/init.lua"; then
   exit 0
 fi
 
+export CUSTOM_DIR="$HOME/.config/nvim/lua/custom"
 mkdir -p "$HOME/.config"
 git clone 'https://github.com/NvChad/NvChad' "$HOME/.config/nvim" --depth 1
-git clone 'https://github.com/davidrios/nvim_custom' "$HOME/.config/nvim/lua/custom" --depth 1
+git clone 'https://github.com/davidrios/nvim_custom' "$CUSTOM_DIR" --depth 1
+
+if grep -qs 'needs_node.*true' .nvim/config.json; then
+  "$CUSTOM_DIR/installnode.sh"
+fi
+
 nvim
 
 test -z "$NOPATH" || echo "Add '$BIN_PATH' to your \$PATH to be able to call 'nvim', eg: echo 'export PATH=$BIN_PATH:\$PATH' >> ~/.bashrc"

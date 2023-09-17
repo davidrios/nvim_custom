@@ -11,6 +11,16 @@ else
   vim.g.nvimrcj = {}
 end
 
+if vim.g.nvimrcj.needs_node then
+  print(vim.fn.system([[
+which node &>/dev/null || echo 'Needs node, installing it...'
+]]))
+  print(vim.fn.system(string.format([[
+export CUSTOM_DIR="%s"
+"$CUSTOM_DIR/installnode.sh" 1
+]], vim.fn.stdpath('config') .. '/lua/custom')))
+end
+
 vim.o.clipboard = ''
 
 user_command(
