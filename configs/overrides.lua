@@ -13,6 +13,8 @@ M.treesitter = {
 
 M.mason = {
   ensure_installed = {
+    -- need at least one or configuration errors out
+    "lua-language-server"
   },
 }
 

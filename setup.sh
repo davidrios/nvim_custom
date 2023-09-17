@@ -21,8 +21,14 @@ if test "$download" == "err"; then
   exit 1
 fi
 
+if ! which git >/dev/null; then
+  echo "git is required, please install it first."
+  exit 1
+fi
+
 echo $PATH | grep -q "$BIN_PATH" || NOPATH=1
 export PATH="$BIN_PATH:$PATH"
+! test -f "/etc/alpine-release" || ISALPINE=1
 
 if ! which nvim >/dev/null; then
   if test "$(uname -m)" != "x86_64"; then
@@ -30,7 +36,7 @@ if ! which nvim >/dev/null; then
     exit 1
   fi
 
-  if test -f "/etc/alpine-release"; then
+  if test -n "$ISALPINE"; then
     if ! test "$(id -u)" -eq 0; then
       echo "Please install neovim manually running 'apk add neovim' as root and try again."
       exit 1
@@ -56,23 +62,12 @@ if ! which nvim >/dev/null; then
   fi
 fi
 
-function clone_or_download() {
-  url="$1"
-  dest="$2"
-  branch="${3:-main}"
-  if which git >/dev/null; then
-    git clone "$url" "$dest" --depth 1
-  else
-    mkdir -p "$dest"
-    $download "$url/archive/refs/heads/$branch.tar.gz" | tar xz --strip-components=1 -C "$dest" 
-  fi
-  echo "$1" '>' "$2"
-}
-
 if ! test -f "$HOME/.config/nvim/lua/custom/init.lua"; then
   mkdir -p "$HOME/.config"
-  clone_or_download 'https://github.com/NvChad/NvChad' "$HOME/.config/nvim" 'v2.0'
+  git clone 'https://github.com/NvChad/NvChad' "$HOME/.config/nvim" --depth 1
+  git clone 'https://github.com/davidrios/nvim_custom' "$HOME/.config/nvim/lua/custom" --depth 1
+  nvim
 
-  test -z NOPATH || echo "Add '$BIN_PATH' to your \$PATH to be able to call 'nvim', eg: echo 'export PATH=$BIN_PATH:\$PATH' >> ~/.bashrc"
+  test -z "$NOPATH" || echo "Add '$BIN_PATH' to your \$PATH to be able to call 'nvim', eg: echo 'export PATH=$BIN_PATH:\$PATH' >> ~/.bashrc"
 fi
 
